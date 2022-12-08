@@ -15,16 +15,12 @@ function generatePassword() {
     return "Password length prompt canceled.";
   } else if (pwLength.length == 0) { // No input entered
     return "No password length provided. Try again.";
-  } else if (containsOnlyNumbers(pwLength)) { // pwLength is an integer
+  } else if (containsOnlyNumbers(pwLength)) { // Input contains an integer
     pwLength = parseInt(pwLength);
-    if (pwLength >= 8 && pwLength <= 128) { // pwLength is valid - between 8 and 128
-      console.log("Password length, " + pwLength + ", is between 8 and 128.");
-    } else { // pwLength is invalid - not between 8 and 128
-      console.log("Password length, " + pwLength + ", is not between 8 and 128.");
+    if (pwLength < 8 || pwLength > 128) { // Input is invalid - not between 8 and 128
       return "Password length is not between 8 and 128. Try again.";
     }
-  } else { // pwLength is invalid - not an integer
-    console.log("Password length, " + pwLength + ", is not an integer.");
+  } else { // Input is invalid - not an integer
     return "Invalid length provided. Try again.";
   }
 
@@ -43,14 +39,13 @@ function generatePassword() {
   
   // Validate password character types
   var validCharTypes = "lunsa";
-  console.log("pwCharType: " + pwCharTypes);
   if (pwCharTypes == null) { // Prompt was canceled
     return "Character type prompt canceled.";
   } else if (pwCharTypes.length == 0) { // No input entered
     return "No character type(s) provided. Try again.";
   } else { // At least 1 input
     for (var i = 0; i < pwCharTypes.length; i++) { // Loop through each input
-      if (!validCharTypes.includes(pwCharTypes[i])) { // Check if input is invalid
+      if (!validCharTypes.includes(pwCharTypes[i])) { // Input is invalid
         return "Invalid character type(s) provided. Try again.";
       }
     }
@@ -70,7 +65,7 @@ function generatePassword() {
 
   // Add possible character types together based on user input
   var possibleChars = "";
-  if (pwCharTypes.includes("l") || pwCharTypes.includes("a")) {
+  if (pwCharTypes.includes("l")) {
     possibleChars += lowercase;
   }
 
@@ -95,7 +90,7 @@ function generatePassword() {
   }
 
   // Log password and return it
-  console.log("PW: " + pw);
+  console.log("Password: " + pw);
   return pw;
 }
 
