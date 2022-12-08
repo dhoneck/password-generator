@@ -1,4 +1,3 @@
-// Assignment code here
 // Checks if string only contains numbers
 function containsOnlyNumbers(str) {
   return /^\d+$/.test(str);
@@ -11,36 +10,51 @@ function generatePassword() {
   pwLength = prompt("How many characters should your password be? (8-128)");
   console.log("User selected character length: " + pwLength);
   
-  // Validate length - integer between 8 and 128
-  var lengthValid = false;
-  if (containsOnlyNumbers(pwLength)) { // pwLength is an integer
+  // Validate password length
+  if (pwLength == null) { // Prompt was canceled
+    return "Password length prompt canceled.";
+  } else if (pwLength.length == 0) { // No input entered
+    return "No password length provided. Try again.";
+  } else if (containsOnlyNumbers(pwLength)) { // pwLength is an integer
     pwLength = parseInt(pwLength);
-    if (pwLength >= 8 && pwLength <= 128) { // pwLength is valid
-      console.log("Password length, " + pwLength + ", is between 8 and 128.")
-      lengthValid = true;
-    } else { // pwLength is invalid
+    if (pwLength >= 8 && pwLength <= 128) { // pwLength is valid - between 8 and 128
+      console.log("Password length, " + pwLength + ", is between 8 and 128.");
+    } else { // pwLength is invalid - not between 8 and 128
       console.log("Password length, " + pwLength + ", is not between 8 and 128.");
-      return "Invalid length provided. Try again.";
+      return "Password length is not between 8 and 128. Try again.";
     }
-  } else { // pwLength is not an integer
+  } else { // pwLength is invalid - not an integer
     console.log("Password length, " + pwLength + ", is not an integer.");
     return "Invalid length provided. Try again.";
   }
 
   // Ask user what type of characters to use in password
   pwCharTypes = prompt(
-  "What kind of characters should your password contain?\n" +
-  "(l) - Lowercase\n" +
-  "(u) - Uppercase\n" + 
-  "(n) - Numeric\n" +
-  "(s) - Special Characters\n" +
-  "(a) - All Types\n" +
-  "Please enter at least one option.\n" +
-  "Add multiple types in one line with no spaces (e.g. lun)."
+    "What kind of characters should your password contain?\n" +
+    "(l) - Lowercase\n" +
+    "(u) - Uppercase\n" + 
+    "(n) - Numeric\n" +
+    "(s) - Special Characters\n" +
+    "(a) - All Types\n" +
+    "Please enter at least one option.\n" +
+    "Add multiple types in one line with no spaces (e.g. lun)."
   );
   console.log("User selected character types: " + pwCharTypes);
   
-  // TODO: Validate character types
+  // Validate password character types
+  var validCharTypes = "lunsa";
+  console.log("pwCharType: " + pwCharTypes);
+  if (pwCharTypes == null) { // Prompt was canceled
+    return "Character type prompt canceled.";
+  } else if (pwCharTypes.length == 0) { // No input entered
+    return "No character type(s) provided. Try again.";
+  } else { // At least 1 input
+    for (var i = 0; i < pwCharTypes.length; i++) { // Loop through each input
+      if (!validCharTypes.includes(pwCharTypes[i])) { // Check if input is invalid
+        return "Invalid character type(s) provided. Try again.";
+      }
+    }
+  }
 
   // Generate password that matches the selected criteria
   // Define different character types
@@ -49,29 +63,26 @@ function generatePassword() {
   var numeric = "0123456789";
   var special = " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
 
-  // Convert pwCharTypes from 'a' to 'luns' to include all character types
-  if (pwCharTypes == "a") {
+  // If pwCharTypes contains "a" change it to "luns" to include all character types
+  if (pwCharTypes.includes("a")) {
     pwCharTypes = "luns";
   }
 
+  // Add possible character types together based on user input
   var possibleChars = "";
   if (pwCharTypes.includes("l") || pwCharTypes.includes("a")) {
-    console.log("Includes l");
     possibleChars += lowercase;
   }
 
   if (pwCharTypes.includes("u")) {
-    console.log("Includes u");
     possibleChars += uppercase;
   }
 
   if (pwCharTypes.includes("n")) {
-    console.log("Includes n");
     possibleChars += numeric;
   }
 
   if (pwCharTypes.includes("s")) {
-    console.log("Includes s");
     possibleChars += special;
   }
   console.log("All possible characters: " + possibleChars);
@@ -83,7 +94,7 @@ function generatePassword() {
     pw += possibleChars[randomIndex];
   }
 
-  // Display password in an alert or write to the page
+  // Log password and return it
   console.log("PW: " + pw);
   return pw;
 }
